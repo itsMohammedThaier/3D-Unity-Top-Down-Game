@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             selectedZAxisSpeed = maximizeZAxisSpeed;
-            whoWillMove.transform.localScale = Vector3.Lerp(whoWillMove.transform.localScale, ScaleWitoutBoost, .02f);
+            whoWillMove.transform.localScale = Vector3.Lerp(whoWillMove.transform.localScale, ScaleWitoutBoost, .1f);
         }
     }
 
