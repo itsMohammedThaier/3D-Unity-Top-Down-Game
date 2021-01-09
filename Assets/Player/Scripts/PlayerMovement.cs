@@ -72,13 +72,17 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SpeedUp(bool IncreaseTheSpeed)
     {
+        Vector3 ScaleWithBoost = new Vector3(.7f, .7f, 2);
+        Vector3 ScaleWitoutBoost = new Vector3(1f, 1f, 1);
         if (IncreaseTheSpeed)
         {
             selectedZAxisSpeed = maximizeZAxisSuperSpeed;
+            whoWillMove.transform.localScale = Vector3.Lerp(whoWillMove.transform.localScale, ScaleWithBoost, .02f);
         }
         else
         {
             selectedZAxisSpeed = maximizeZAxisSpeed;
+            whoWillMove.transform.localScale = Vector3.Lerp(whoWillMove.transform.localScale, ScaleWitoutBoost, .02f);
         }
     }
 
