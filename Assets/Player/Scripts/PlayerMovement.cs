@@ -1,17 +1,20 @@
 using UnityEngine;
+using System;  
 
 public class PlayerMovement : MonoBehaviour
 {
+    //TODO: reset the operators places
     public Rigidbody whoWillMove; 
 
     public float movingSpeed;
     public float jumpForce;
-    public float gravity; /* This will return positive number 
-    cause we'll return it to negative later*/
+    public float gravity; /* This will return positive number cause we'll return it to negative later*/
     public GameObject jumpParticles;
     public Transform instantiatedJumpParticlesPos;
     public float defaultJumpTimes;
     private float currentJumpTimes;
+
+    public GameObject wings;
 
     public float maximizeZAxisSpeed;/* The maximize speed you can reach when you use  normal speed */
     public float maximizeZAxisSuperSpeed;/* The maximize speed you can reach when you use the super speed */
@@ -27,25 +30,59 @@ public class PlayerMovement : MonoBehaviour
     public float facingTheMouseLerp;
     private Vector3 pointToLookAt;
 
+    private string movementMode; //Move modes: 1.Normal Mode 2.Flying Mmode
+    public string MovementMode
+    {
+        get
+        {
+            return movementMode;
+        }
+        set
+        {
+            if (value == "Fly Mode" || value == "Normal Mode")
+            {
+                movementMode = value;
+            }
+            else
+            {
+                Debug.Log("You can't change the MovementMode name to something else than Fly Mode or Normal Mode");
+                movementMode = "Normal Mode";
+            }
+        }
+    }
+
     void Start()
     {
+        MovementMode = "Normal Mode";
         selectedZAxisSpeed = maximizeZAxisSpeed;
         selectedXAxisSpeed = maximizeXAxisSpeed;
         ResetJumpTimes();
     }
-
     void Update()
     {
-        MovementKeyboardInput();
+        MovementKeyboardInput(MovementMode);
         FaceTheMouse();
     }
 
-    public void MovementKeyboardInput()
+    public void MovementKeyboardInput(string MovingInputMode)
     {
         Input_Movement_Horizontal_Keys();
         Input_Movement_Vertical_Keys();
         InputBoosButtons();
-        InputJumpButtons();
+        switch (MovingInputMode)
+        {
+            case "Normal Mode": InputJumpButtons(); break;
+
+            case "Fly Mode": PlayFlyModeActions(); break;
+            
+            default:
+            //TODO: make the default case
+            break;
+        }
+        if (MovingInputMode == "Normal Mode")
+        {
+            InputJumpButtons();
+        }
     }
 
     public void Input_Movement_Horizontal_Keys()
@@ -136,7 +173,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            if (currentJumpTimes > 0)
+            //If the allowed jump times become zero, Then
+            //The player will active the wings
+            if (currentJumpTimes <= 0)
+            {
+                if (movementMode != "Fly Mode")
+                {
+                    SetMovementMode("Fly Mode");
+                }
+            }
+            else
             {
                 Jump();
                 currentJumpTimes--;
@@ -154,10 +200,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Instantiate(jumpParticles, instantiatedJumpParticlesPos);
     }
-    public void EnableFlyMode()
-    {
-
-    }
     public void ResetJumpTimes()
     {
         currentJumpTimes = defaultJumpTimes;
@@ -165,6 +207,21 @@ public class PlayerMovement : MonoBehaviour
     public void IncreaGravity()
     {
         whoWillMove.AddForce(0, -gravity, 0);
+    }
+
+    public void SetMovementMode(string Mode)
+    {
+        MovementMode = Mode;
+    }
+    public void PlayFlyModeActions()
+    {
+        IncreaGravity();
+        ChangeWingsScale();
+        //TODO: Make the flying function
+    }
+    public void ChangeWingsScale()
+    {
+        wings.transform.localScale = Vector3.Lerp(wings.transform.localScale, new Vector3(1, 1, 1), .125f);
     }
 
     public void FaceTheMouse()
