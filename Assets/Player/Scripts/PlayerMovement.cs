@@ -6,13 +6,15 @@ public class PlayerMovement : MonoBehaviour
 
     public float movingSpeed;
     public float jumpForce;
-    public float gravity; /* This should return positive number 
+    public float gravity; /* This will return positive number 
     cause we'll return it to negative later*/
     public GameObject jumpParticles;
     public Transform instantiatedJumpParticlesPos;
+    public float defaultJumpTimes;
+    private float currentJumpTimes;
 
     public float maximizeZAxisSpeed;/* The maximize speed you can reach when you use  normal speed */
-    public float maximizeZAxisSuperSpeed;/*The maximize speed you can reach when you use the super speed */
+    public float maximizeZAxisSuperSpeed;/* The maximize speed you can reach when you use the super speed */
     public float maximizeXAxisSpeed;
     private float selectedZAxisSpeed;
     private float selectedXAxisSpeed;
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     {
         selectedZAxisSpeed = maximizeZAxisSpeed;
         selectedXAxisSpeed = maximizeXAxisSpeed;
+        ResetJumpTimes();
     }
 
     void Update()
@@ -133,23 +136,35 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            jump();
+            if (currentJumpTimes > 0)
+            {
+                Jump();
+                currentJumpTimes--;
+            }
         }
         IncreaGravity();
     }
-    public void jump()
+    public void Jump()
     {
         whoWillMove.AddForce(0, jumpForce, 0, ForceMode.Impulse);
-        playJumpEffects();
-        //TODO: Limit the jump times and enable fly mode
+        PlayJumpEffects();
+        //TODO: Limit the Jump times and enable fly mode
+    }
+    public void PlayJumpEffects()
+    {
+        Instantiate(jumpParticles, instantiatedJumpParticlesPos);
+    }
+    public void EnableFlyMode()
+    {
+
+    }
+    public void ResetJumpTimes()
+    {
+        currentJumpTimes = defaultJumpTimes;
     }
     public void IncreaGravity()
     {
         whoWillMove.AddForce(0, -gravity, 0);
-    }
-    public void playJumpEffects()
-    {
-        Instantiate(jumpParticles, instantiatedJumpParticlesPos);
     }
 
     public void FaceTheMouse()
