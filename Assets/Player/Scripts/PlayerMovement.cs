@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float gravity; /* This should return positive number 
     cause we'll return it to negative later*/
+    public GameObject jumpParticles;
+    public Transform instantiatedJumpParticlesPos;
 
     public float maximizeZAxisSpeed;/* The maximize speed you can reach when you use  normal speed */
     public float maximizeZAxisSuperSpeed;/*The maximize speed you can reach when you use the super speed */
@@ -138,10 +140,16 @@ public class PlayerMovement : MonoBehaviour
     public void jump()
     {
         whoWillMove.AddForce(0, jumpForce, 0, ForceMode.Impulse);
+        playJumpEffects();
+        //TODO: Limit the jump times and enable fly mode
     }
     public void IncreaGravity()
     {
         whoWillMove.AddForce(0, -gravity, 0);
+    }
+    public void playJumpEffects()
+    {
+        Instantiate(jumpParticles, instantiatedJumpParticlesPos);
     }
 
     public void FaceTheMouse()
