@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
     private float currentJumpTimes;
 
     public GameObject wings;
+    public Transform wingUpperBone;
+    public Animator flyAnimation;
+    private float flyingHigh;
+
 
     public float maximizeZAxisSpeed;/* The maximize speed you can reach when you use  normal speed */
     public float maximizeZAxisSuperSpeed;/* The maximize speed you can reach when you use the super speed */
@@ -78,10 +82,6 @@ public class PlayerMovement : MonoBehaviour
             default:
             //TODO: make the default case
             break;
-        }
-        if (MovingInputMode == "Normal Mode")
-        {
-            InputJumpButtons();
         }
     }
 
@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(boostUpParticles.isPlaying)
+            if (boostUpParticles.isPlaying)
             {
                 boostUpParticles.Stop();
             }
@@ -194,7 +194,6 @@ public class PlayerMovement : MonoBehaviour
     {
         whoWillMove.AddForce(0, jumpForce, 0, ForceMode.Impulse);
         PlayJumpEffects();
-        //TODO: Limit the Jump times and enable fly mode
     }
     public void PlayJumpEffects()
     {
@@ -212,16 +211,67 @@ public class PlayerMovement : MonoBehaviour
     public void SetMovementMode(string Mode)
     {
         MovementMode = Mode;
+        if (movementMode == "Fly Mode")
+        {
+            EnableFlyMode(true);
+        }
     }
+    public void EnableFlyMode(bool Enable)
+    {
+        if (Enable)
+        {
+            Debug.Log("The fly enabled");
+            wings.active = true;
+            flyAnimation.SetTrigger("Fly On");
+            flyingHigh = whoWillMove.transform.position.y;
+        }
+        else
+        {
+            Debug.Log("The fly disabled");
+            wings.active = false;
+            flyAnimation.SetTrigger("Fly Off");
+            MovementMode = "Normal Mode";
+            whoWillMove.velocity = new Vector3(whoWillMove.velocity.x, 0, whoWillMove.velocity.z);
+        }
+    }
+    
     public void PlayFlyModeActions()
     {
-        IncreaGravity();
-        ChangeWingsScale();
-        //TODO: Make the flying function
+        bool theWingsShouldGetBigger = CheckFlyButtonIsPressed();
+        ChangeWingsScale(theWingsShouldGetBigger);
+        Fly();
     }
-    public void ChangeWingsScale()
+    public bool CheckFlyButtonIsPressed()
     {
-        wings.transform.localScale = Vector3.Lerp(wings.transform.localScale, new Vector3(1, 1, 1), .125f);
+        if (Input.GetButton("Jump"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void ChangeWingsScale(bool toBigger)
+    {
+        if (toBigger)
+        {
+            wings.transform.localScale = Vector3.Lerp(wings.transform.localScale, new Vector3(1, 1, 1), .125f);
+        }
+        else
+        {
+            wings.transform.localScale = Vector3.Lerp(wings.transform.localScale, new Vector3(0, 1, 0), .125f);
+            if (wings.transform.localScale.x < .2f)
+            {
+                EnableFlyMode(false);
+            }
+        }
+    }
+    public void Fly()
+    {
+        float FlyY = flyingHigh + wingUpperBone.transform.localRotation.x*2;
+        Vector3 flyingPos = new Vector3(whoWillMove.transform.position.x, FlyY, whoWillMove.transform.position.z);
+        whoWillMove.transform.position = flyingPos;
     }
 
     public void FaceTheMouse()

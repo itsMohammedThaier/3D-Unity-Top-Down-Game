@@ -701,6 +701,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471408165}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &531184384 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2639638324218457063, guid: d1efb3da1499c534e8536a6effdeb851,
+    type: 3}
+  m_PrefabInstance: {fileID: 2111771793}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &665212681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,8 +1024,10 @@ MonoBehaviour:
   jumpParticles: {fileID: 3734122245453893430, guid: 02a6cd4467ee35a4c994cf38e37514e0,
     type: 3}
   instantiatedJumpParticlesPos: {fileID: 1747633813}
-  defaultJumpTimes: 1
+  defaultJumpTimes: 2
   wings: {fileID: 1139745005}
+  wingUpperBone: {fileID: 531184384}
+  flyAnimation: {fileID: 1463344750}
   maximizeZAxisSpeed: 10
   maximizeZAxisSuperSpeed: 20
   maximizeXAxisSpeed: 5
@@ -1070,7 +1078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1139745006
 Transform:
   m_ObjectHideFlags: 0
