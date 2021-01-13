@@ -7,6 +7,16 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody whoWillMove; 
 
     public float movingSpeed;
+    
+    public float maximizeZAxisSpeed;/* The maximize speed you can reach when you use  normal speed */
+    public float maximizeZAxisSuperSpeed;/* The maximize speed you can reach when you use the super speed */
+    public float maximizeXAxisSpeed;
+    private float selectedZAxisSpeed;
+    private float selectedXAxisSpeed;
+    private Vector3 forwardMove;
+    private Vector3 sideMove;
+    public ParticleSystem boostUpParticles;
+
     public float jumpForce;
     public float gravity; /* This will return positive number cause we'll return it to negative later*/
     public GameObject jumpParticles;
@@ -18,29 +28,14 @@ public class PlayerMovement : MonoBehaviour
     public Transform wingUpperBone;
     public Animator flyAnimation;
     private float flyingHigh;
-
-
-    public float maximizeZAxisSpeed;/* The maximize speed you can reach when you use  normal speed */
-    public float maximizeZAxisSuperSpeed;/* The maximize speed you can reach when you use the super speed */
-    public float maximizeXAxisSpeed;
-    private float selectedZAxisSpeed;
-    private float selectedXAxisSpeed;
-
-    private Vector3 forwardMove;
-    private Vector3 sideMove;
-
-    public ParticleSystem boostUpParticles;
-
+    
     public float facingTheMouseLerp;
     private Vector3 pointToLookAt;
 
     private string movementMode; //Move modes: 1.Normal Mode 2.Flying Mmode
     public string MovementMode
     {
-        get
-        {
-            return movementMode;
-        }
+        get{ return movementMode; }
         set
         {
             if (value == "Fly Mode" || value == "Normal Mode")
@@ -91,9 +86,9 @@ public class PlayerMovement : MonoBehaviour
         {
             MoveRightOrLeft();
         }
-        else if ( !Input.GetButton("Horizontal") )
+        else if( !Input.GetButton("Horizontal") )
         {
-            MoveRightOrLeft();
+            sideMove = Vector3.zero;
         }
     }
     public void MoveRightOrLeft()
@@ -127,14 +122,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void InputBoosButtons()
     {
-        if (Input.GetButton("SpeedUp"))
-        {
-            SpeedUp(true);
-        }
-        else
-        {
-            SpeedUp(false);
-        }
+        bool increaseTheSpeed;
+        increaseTheSpeed = (Input.GetButton("SpeedUp"))? true:false;
+        SpeedUp(increaseTheSpeed);
     }
     public void SpeedUp(bool IncreaseTheSpeed)
     {
@@ -173,14 +163,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            //If the allowed jump times become zero, Then
-            //The player will active the wings
-            if (currentJumpTimes <= 0)
+            //If the allowed jump times == zero, Then
+            //The player press jump, this will active the wings
+            if (currentJumpTimes <= 0 && movementMode != "Fly Mode")
             {
-                if (movementMode != "Fly Mode")
-                {
-                    SetMovementMode("Fly Mode");
-                }
+                SetMovementMode("Fly Mode");
             }
             else
             {
@@ -188,6 +175,9 @@ public class PlayerMovement : MonoBehaviour
                 currentJumpTimes--;
             }
         }
+
+        /*We can't change the gravity directly from the
+        Rigidbody component, So we'll do it via function */
         IncreaGravity();
     }
     public void Jump()
@@ -243,14 +233,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public bool CheckFlyButtonIsPressed()
     {
-        if (Input.GetButton("Jump"))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        bool valueToReturn = (Input.GetButton("Jump"))? true:false ;
+        return valueToReturn;
     }
     public void ChangeWingsScale(bool toBigger)
     {
@@ -277,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
     public void FaceTheMouse()
     {
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane (Vector3.up, new Vector3(0, 0, 0));
+        Plane groundPlane = new Plane (Vector3.up, new Vector3(0, whoWillMove.transform.position.y, 0));
         float rayLength = 200;
 
         if (groundPlane.Raycast(camRay, out rayLength))
@@ -287,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
                 camRay.GetPoint(rayLength),
                 facingTheMouseLerp
                 );
-            whoWillMove.transform.LookAt(new Vector3(pointToLookAt.x, whoWillMove.transform.position.y, pointToLookAt.z));
+            whoWillMove.transform.LookAt(new Vector3(pointToLookAt.x, whoWillMove.transform.position.y, pointToLookAt.z) );
             Debug.DrawLine(camRay.origin, pointToLookAt, Color.green);
         }
     }
