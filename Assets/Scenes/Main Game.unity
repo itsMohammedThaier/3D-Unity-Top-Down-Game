@@ -674,7 +674,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 1.7763975, y: 1}
+    m_SensorSize: {x: 0.9050633, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1410,7 +1410,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0}
+  m_BackGroundColor: {r: 0, g: 0.29121295, b: 0.3490566, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 0
   m_FOVAxisMode: 0
