@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TestGlow
+  m_Name: WhiteGlow
   m_Shader: {fileID: -6465566751694194690, guid: 773a780482d9bc34891f6623ac5d52fc,
     type: 3}
   m_ShaderKeywords: 
