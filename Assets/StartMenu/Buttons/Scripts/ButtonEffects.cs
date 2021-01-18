@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ButtonEffects : MonoBehaviour
 {
@@ -9,10 +7,21 @@ public class ButtonEffects : MonoBehaviour
     private bool isHovered;
     private bool isClicked;
 
+    private Transform theWholeObject;
+    public float clickSizeLerp;
+    private Vector3 defaultSize;
+    public Vector3 clickedSize;
+
+    void Start()
+    {
+        theWholeObject = GetComponent<Transform>();
+        defaultSize = theWholeObject.localScale;
+    }
     // Update is called once per frame
     void Update()
     {
         DoHoverEffect();
+        ClickEffect();
     }
 
     public void DoHoverEffect()
@@ -41,7 +50,11 @@ public class ButtonEffects : MonoBehaviour
     {
         if (isClicked)
         {
-            //TODO: Make the click effect
+            theWholeObject.transform.localScale = Vector3.Lerp(theWholeObject.localScale, clickedSize, clickSizeLerp);
+        }
+        else
+        {
+            theWholeObject.transform.localScale = Vector3.Lerp(theWholeObject.localScale, defaultSize, clickSizeLerp);
         }
     }
     public void TurnOnIsClicked()
