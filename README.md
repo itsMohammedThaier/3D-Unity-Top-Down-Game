@@ -1,6 +1,6 @@
 # 3D-Unity-Top-Down-Game
 
-## You can check this game preview [here](https://www.youtube.com/watch?v=EyHFSIoeYTs)
+## The game preview [here](https://www.youtube.com/watch?v=EyHFSIoeYTs)
 
 # Screenshots:
 <img src="Screenshots/FirstScreenShot.png" width="800"/>
