@@ -4,11 +4,6 @@ public class CustomCursor : MonoBehaviour
 {
     public Transform ourCursor;
 
-    void Awake()
-    {
-        DontDestroyOnLoad(transform);
-    }
-
     void Update()
     {
         CustomCursorActions();
@@ -25,7 +20,13 @@ public class CustomCursor : MonoBehaviour
     }
     private void FollowCursorPose()
     {
-        Vector2 cursorPose = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        ourCursor.position = cursorPose;
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float rayLenght = 10;
+        ourCursor.position = camRay.GetPoint(1);
+
+
+
+        // Vector2 cursorPose = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // ourCursor.position = new Vector2(cursorPose.x, cursorPose.y);
     }
 }

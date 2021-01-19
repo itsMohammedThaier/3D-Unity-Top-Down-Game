@@ -263,7 +263,6 @@ public class PlayerMovement : MonoBehaviour
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane (Vector3.up, new Vector3(0, whoWillMove.transform.position.y, 0));
         float rayLength = 200;
-
         if (groundPlane.Raycast(camRay, out rayLength))
         {
             pointToLookAt = Vector3.Lerp(

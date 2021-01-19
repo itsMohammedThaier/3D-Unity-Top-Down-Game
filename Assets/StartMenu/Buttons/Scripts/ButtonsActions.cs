@@ -10,4 +10,9 @@ public class ButtonsActions : MonoBehaviour
         //will call a scene chaning method by an event
         sceneTransition.SetTrigger("Start");
     }
+
+    public void ExitTheGame()
+    {
+        Application.Quit();
+    }
 }
