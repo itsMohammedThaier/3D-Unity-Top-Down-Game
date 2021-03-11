@@ -1,16 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SelfDestorying : MonoBehaviour
 {
     public float time;
-    void Update()
+    void Start()
     {
-        time -= Time.deltaTime;
-        if (time < 0)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, time);
     }
 }

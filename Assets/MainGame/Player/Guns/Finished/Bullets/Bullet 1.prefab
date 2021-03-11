@@ -4765,6 +4765,7 @@ GameObject:
   - component: {fileID: 1001027707531611564}
   - component: {fileID: 1001027707531611565}
   - component: {fileID: 3848386295541999310}
+  - component: {fileID: 5999309063359469180}
   m_Layer: 0
   m_Name: Bullet 1
   m_TagString: Untagged
@@ -4816,6 +4817,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 1
+--- !u!114 &5999309063359469180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001027707531611475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f301a247972270b4da56623b315d022c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effect: {fileID: 8174471872715540575, guid: 4b8af468b24eea742ba91dd28246aae6, type: 3}
+  effectLiveDuration: 0.1
 --- !u!1 &1001027707575854401
 GameObject:
   m_ObjectHideFlags: 0
@@ -4827,7 +4842,6 @@ GameObject:
   - component: {fileID: 1001027707575854429}
   - component: {fileID: 1001027707575854428}
   - component: {fileID: 1001027707575854403}
-  - component: {fileID: 1001027707575854402}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -4898,19 +4912,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1001027707575854402
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1001027707575854401}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6519573029756828475
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class FollowObj : MonoBehaviour
     public Transform whoWillMove;
     public float MovingLerp;
 
-    void Update()
+    void FixedUpdate()
     {
         FollowTheTarget();
     }
